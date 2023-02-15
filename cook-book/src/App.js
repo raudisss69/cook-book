@@ -1,30 +1,28 @@
-import React from 'react';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import './App.css';
-
-import Navbar from './components/Navbar';
-import Recipes from './components/Recipes';
-import Create from './components/Create';
-import Details from './components/Details';
-import { APIContextProvider } from './APIcontext';
-
+import Navbar from './Navbar';
+import Home from './Home';
+import Create from './Create';
+import RecipeDetails from './RecipeDetails';
+import { Provider } from 'react-redux';
+import { store } from './reduxjs/store';
 
 function App() {
   return (
-  <APIContextProvider>
-    <Router>
-    <div className="App">
-      <Navbar />
-        <Routes>
-          <Route exact path="/" element = {<Recipes/>}/>
-          <Route path="/create" element = {<Create/>}/>
-          <Route path="/details/:id" element = {<Details/>}/>
-        </Routes>
-    </div>
-    </Router>
-  </APIContextProvider>    
+    <Provider store={store}>
+      <Router>
+        <div className="App">
+          <Navbar />
+          <div className="content">
+            <Routes>
+              <Route exact path="/" element={<Home />}/>
+              <Route path="/create" element={<Create />}/>
+              <Route path="/recipes/:id" element={<RecipeDetails />}/>
+            </Routes>
+          </div>
+        </div>
+      </Router>
+    </Provider>
   );
 }
 
 export default App;
-

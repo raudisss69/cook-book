@@ -1,10 +1,10 @@
-import Recipes from "./Recipes";
+import RecipeList from "./RecipeList";
 
 const Home = () => {
 
     return (
         <div className="home">
-            <Recipes title="All Recipes"/>
+            <RecipeList title="All Recipes"/>
         </div>
     )
 }
