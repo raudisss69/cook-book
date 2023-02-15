@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 
 const RecipeDetails = () => {
 
-    const nav = useNavigate()
     const { id } = useParams()
 
     const url = useSelector(
@@ -12,14 +11,6 @@ const RecipeDetails = () => {
     )
 
     const { data: recipe, error, isPending } = useFetch(url + id);
-
-    const handleClick= () => {
-        fetch(url + recipe.id, {
-            method: 'DELETE'
-        }).then(() => {
-            nav('/');
-        })
-    }
  
     return ( 
         <div className="recipe-details">
@@ -28,10 +19,9 @@ const RecipeDetails = () => {
             { recipe && (
                 <article>
                     <h2>{ recipe.title }</h2>
-                    <p>Takes { recipe.time } minutes to cook</p>
+                    <p>Cook Time: { recipe.time } minutes</p>
                     <p className="ing">{recipe.listIngredients.join(', ')}</p>
                     <div>{ recipe.method }</div>
-                    <button onClick={handleClick}>Delete</button>
                 </article>
             )}
         </div>
