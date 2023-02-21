@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { setPending } from "./reduxjs/slices/pendingSlice";
+import axios from "axios";
 
 
 const Create = () => {
@@ -11,14 +11,10 @@ const Create = () => {
     const [ time, setTime ] = useState('')
     const [ listIngredients, setListIngredients ] = useState([])
 
-    const url = useSelector(
-        (state) => state.url.url
-    )
     const isPending = useSelector(
         (state) => state.pending
     )
 
-    const dispatch = useDispatch()
     const nav = useNavigate()
 
     const handleIngredients = (e) => {
@@ -27,29 +23,25 @@ const Create = () => {
         setIngredients('')
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit2 = async (e) => {
         e.preventDefault()
-        const recipe = {title, listIngredients, method, time}
-
-        dispatch(setPending(true));
-
-        fetch(url, {
-            method: 'POST',
-            headers: {"Content-type": "application/json"},
-            body: JSON.stringify(recipe)
-        }).then(() => {
-            console.log("New recipe added")
-            dispatch(setPending(false));
+        try {
+            await axios.post("http://localhost:3000/recipes", {
+                title,
+                listIngredients,
+                method,
+                time,
+            })
             nav('/')
-        })
+        } catch (error) {
+            console.log(error)
+        }
     }
-
-
 
     return (
         <div className="create">
             <h2>Add a new recipe</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit2}>
                 <label>Recipe title:</label>
                 <input 
                     className="inp"
